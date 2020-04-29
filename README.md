@@ -8,7 +8,7 @@
 **Estudiante:** José Daniel Lara-Tufiño
 
 **Reporte de tarea 2.1:** Expresión diferencial
-
+m
 **Fecha de entrega:** 29/04/20
 
 ### INTRODUCCIÓN
