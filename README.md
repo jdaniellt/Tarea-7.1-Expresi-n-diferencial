@@ -2,9 +2,13 @@
 **Curso:** Introducción a la bioinformática e investigación reproducible para análisis genómicos
 
 **Unidad 6:** Introducción a la genómica y secuenciación de siguiente generación
+
 **Catedráticos:** Dr. Ricardo Verdugo-Salgado y Dra. Karen Oróstica
+
 **Estudiante:** José Daniel Lara-Tufiño
+
 **Reporte de tarea 2.1:** Expresión diferencial
+
 **Fecha de entrega:** 29/04/20
 
 ### INTRODUCCIÓN
