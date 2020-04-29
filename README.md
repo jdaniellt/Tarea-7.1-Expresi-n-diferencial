@@ -1,6 +1,6 @@
-# TAREA 7.1: Expresión diferencial
-### **Curso:** Introducción a la bioinformática e investigación reproducible para análisis genómicos
-### Unidad 6: Introducción a la genómica y secuenciación de siguiente generación
+## TAREA 7.1: Expresión diferencial
+**Curso:** Introducción a la bioinformática e investigación reproducible para análisis genómicos
+**Unidad 6:** Introducción a la genómica y secuenciación de siguiente generación
 ### Catedráticos: Dr. Ricardo Verdugo-Salgado y Dra. Karen Oróstica
 ### Estudiante: José Daniel Lara-Tufiño
 ### Reporte de tarea 2.1: Expresión diferencial
