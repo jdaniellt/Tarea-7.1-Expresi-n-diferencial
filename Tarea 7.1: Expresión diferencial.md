@@ -108,6 +108,7 @@ legend("top", legend=levels(qcfact), fill=1:2, ncol=2, xjust=.5, bty="n", inset=
 
 dev.off()
 ```
-![bloxplot_raw_probe_qc](bloxplot_raw_probe_qc.png)
+![bloxplot_raw_probe_qc](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/boxplot_raw_probe_qc.png)
+
 
 
