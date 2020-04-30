@@ -468,15 +468,12 @@ resultFisher.classic <- runTest(GOdata, algorithm = "classic", statistic = "fish
   row.names=F)
 ```
 
-## DISCUSIÓN Y CONCLUSIONES
+## RESULTADOS Y DISCUSIÓN
+Existe un mayor número de genes DE entre genotipos (527) que entre tratamientos (428), aunque una considerable cantidad de genes DE son compartidos (309) en ambos casos (Fig. 5). Con referencia a las interacciones, se observa un resultado similar, hay más genes DE entre los genotipos (37) que en entre tratamientos (30), y se comparten 53 genes DE en ambos casos (Fig. 5). Como producto de las interacciones, se identificaron menos genes DE (23), con relación a los factores experimentales (genotipos y tratamientos).Con Referencia a los genes que responden al genotipo de manera dependiente del tratamiento y viceversa, se obtuvieron resultados más contrastantes (Fig. 6). Se identificó que los ratones intactos presentan un menor número de genes ED (29) que los ratones castrados (88), y con referencia al genotipo, la cepa BY muestra un número mayor de genes DE (22) que la cepa B (92).
 
-Determinar si existe expresión diferencial entre genotipos.
+En cuanto a las implicaciones biológicas, la evaluación de la interacción permitió identificar 249 “genes de interacción”  que se enriquecen dentro la vía de señalización p53, que comprende los genes Ccnd1, Pten y Cdkn1a que son correguladores de los receptores de andrógenos, así como la vía de señalización del ritmo circadiano que comprende los genes Arntl / Bmal1, encargados de regular el crecimiento celular a través del control de Cdkn1a.
 
-Existe un efecto de interacción entre el genotipo y el tratamiento sobre la expresión génica en los cardiomiocitos 
-
-Determinar si existe expresión diferencial entre tratamientos.
-
-Evaluar las diferencias en la respuesta al tratamiento entre los dos genotipos.
+Se encontró, que la testosterona post-puberal aumentó el tamaño de los cardiomiocitos de la cepa C56BL / 6J, pero no fue así con la cepa C57BL / 6J-chrYA; sin embargo, no afectó la expresión génica en los corazones de ambas. No obstante, varios genes cardíacos respondieron a la testosterona post-puberal de una manera estrictamente selectiva dependiendo de la cepa. Lo anterior, puede explicarse por la ausencia de efectos hipertróficos de post-pubertad de la testosterona en cada una de las cepas. 
 
 
 
