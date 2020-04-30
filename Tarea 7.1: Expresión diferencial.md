@@ -296,10 +296,47 @@ Para responder la segunda pregunta, podemos usar los diagramas de Venn. Queremos
                           
 ### Contar genes para cada combinación de efectos marginales y de interacción.
 
-
+```R 
+Counts.DE <- vennCounts(Genes.DE)
+print(Counts.DE)
+  FDR.Geno FDR.Trt FDR.Int Counts
+1        0       0       0    863
+2        0       0       1     36
+3        0       1       0    437
+4        0       1       1     33
+5        1       0       0    467
+6        1       0       1     30
+7        1       1       0    302
+8        1       1       1     56
+attr(,"class")
+[1] "VennCounts"
+```
 
 ### Contar los genes DE entre niveles de un factor condicional en el otro factor.
 
+```R
+Counts.Int_Geno <- vennCounts(Genes.Int_Geno)
+print(Counts.Int_Geno)
+  FDR.Geno_I FDR.Geno_C Counts
+1          0          0      5
+2          0          1     97
+3          1          0     39
+4          1          1     14
+attr(,"class")
+[1] "VennCounts"
+```
+```R 
+Counts.Int_Trt  <- vennCounts(Genes.Int_Trt) 
+> 
+> print(Counts.Int_Trt)
+  FDR.Trt_B FDR.Trt_BY Counts
+1         0          0      2
+2         0          1    109
+3         1          0     27
+4         1          1     17
+attr(,"class")
+[1] "VennCounts"
+```
 
 ### Graficar los genes DE por efectos marginales o de interacción. 
 
@@ -327,3 +364,104 @@ png(file.path(outdir, "vennDiagram_Int.png"), width=6.5, height=3, unit="in", re
  dev.off()
 ```
 
+![vennDiagram_Int](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/vennDiagram_Int.png)
+
+
+## Pruebas funcionales
+
+### Las sondas no anotadas no se pueden usar para el análisis de enriquecimiento, así que las eliminaremos
+
+```R 
+results   <- results[!is.na(results$EntrezID),]
+```
+
+### Sondas seleccionadas por interacción
+
+```R 
+probes.int <- results[, "FDR.Int"]  <= fdr_th
+```
+
+### Resumir por gen. Se selecciona un gen si se selecciona cualquier transcripto.
+
+```R 
+genes.int <- tapply(probes.int, results$EntrezID, any)
+```
+
+### Convertir de lógico a vector de 0 (no seleccionado) o 1 (seleccionado)
+
+```R
+genes.int <- ifelse(genes.int, 1, 0)
+```
+
+### Convertir a un factor
+
+```R
+genes.int <- as.factor(genes.int)
+```
+### Cree un objeto de datos de clase topGO, que contiene todo lo necesario para el enriquecimiento de las pruebas.
+
+```R 
+ GOdata <- new("topGOdata", ontology="BP", allGenes=genes.int,
+               description="Genes DE by Trt by GenoInteraction", nodeSize=5,
+               annotationFun=annFUN.org, mapping="org.Mm.eg.db", ID="entrez")  
+```
+
+### Pruebe si existe enriquecimiento de términos GO utilizando una prueba exacta de Fisher. Usaremos dos algoritmos, la prueba clásica de término por término y el algoritmo " elim " , que tiene en cuenta la jerarquía de los términos GO para evitar la redundancia.
+
+```R 
+resultFisher.classic <- runTest(GOdata, algorithm = "classic", statistic = "fisher")
+ resultFisher.elim    <- runTest(GOdata, algorithm = "elim", statistic = "fisher")
+
+ GO_BP_Table <- GenTable(GOdata, topNodes = 20, Fisher.classic=resultFisher.classic, 
+                         Fisher.elim=resultFisher.elim, 
+                         orderBy = "Fisher.elim", ranksOf = "Fisher.classic")
+                         
+  GO.ID                                        Term Annotated Significant
+1  GO:0032456                         endocytic recycling         5           4
+2  GO:0036010            protein localization to endosome         5           4
+3  GO:0043393               regulation of protein binding        35           8
+4  GO:0051963              regulation of synapse assembly        16           5
+5  GO:0061951 establishment of protein localization to...        10           4
+6  GO:0098876 vesicle-mediated transport to the plasma...        11           4
+7  GO:1903649         regulation of cytoplasmic transport         6           3
+8  GO:1903670        regulation of sprouting angiogenesis         6           3
+9  GO:1905477 positive regulation of protein localizat...        13           4
+10 GO:0035306    positive regulation of dephosphorylation         7           3
+11 GO:0043537 negative regulation of blood vessel endo...         7           3
+12 GO:0016197                         endosomal transport        26           9
+13 GO:0014706          striated muscle tissue development        57           9
+14 GO:0010811 positive regulation of cell-substrate ad...        21           5
+15 GO:0110020 regulation of actomyosin structure organ...        14           4
+16 GO:0051495 positive regulation of cytoskeleton orga...        30           6
+17 GO:0048468                            cell development       289          28
+18 GO:0032091      negative regulation of protein binding        15           4
+19 GO:0055007         cardiac muscle cell differentiation        23           5
+20 GO:0051146        striated muscle cell differentiation        41           7
+   Expected Rank in Fisher.classic Fisher.classic Fisher.elim
+1      0.32                      2        7.4e-05     7.4e-05
+2      0.32                      3        7.4e-05     7.4e-05
+3      2.22                      5         0.0012      0.0012
+4      1.02                      6         0.0024      0.0024
+5      0.64                      7         0.0024      0.0024
+6      0.70                      8         0.0036      0.0036
+7      0.38                      9         0.0044      0.0044
+8      0.38                     10         0.0044      0.0044
+9      0.83                     13         0.0071      0.0071
+10     0.44                     14         0.0073      0.0073
+11     0.44                     15         0.0073      0.0073
+12     1.65                      1        1.6e-05      0.0076
+13     3.62                     18         0.0085      0.0085
+14     1.33                     19         0.0086      0.0086
+15     0.89                     20         0.0095      0.0095
+16     1.91                     21         0.0098      0.0098
+17    18.36                     25         0.0116      0.0116
+18     0.95                     26         0.0123      0.0123
+19     1.46                     27         0.0128      0.0128
+20     2.61                     28         0.0130      0.0130
+```
+### Exporte la tabla completa de los principales términos del formato CSV de GO (puede abrirse en Excel o Calc OpenOffice ) .
+
+```R
+ write.table(GO_BP_Table, file.path(outdir, "GO_BP_Table.csv"), sep=",", 
+  row.names=F)
+```
