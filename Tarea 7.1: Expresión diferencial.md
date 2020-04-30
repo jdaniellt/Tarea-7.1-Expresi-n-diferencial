@@ -123,6 +123,13 @@ dev.off()
 ```
 ![boxplot_raw_treatment](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/boxplot_raw_treatment.png)
 
+### Cree diagramas de dispersión de datos sin procesar en escala log2.
 
-
+```R
+png(file.path(outdir,"Pairs_scatter_log2.png"), width=8, height=8, unit="in", res=150)
+par(cex=.2, mar=c(2.1,2.1,2.1,1.1))
+pairs(log2(Data.Raw[,signal]), main="Log2 Raw Intensity Values", pch=".",  gap=.5, cex.labels=.5)
+dev.off()
+```
+![boxplot_raw_treatment]
 
