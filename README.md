@@ -108,6 +108,8 @@ legend("top", legend=levels(qcfact), fill=1:2, ncol=2, xjust=.5, bty="n", inset=
 
 dev.off()
 
+##
+
 
 
 
