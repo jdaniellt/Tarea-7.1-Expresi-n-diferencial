@@ -465,3 +465,24 @@ resultFisher.classic <- runTest(GOdata, algorithm = "classic", statistic = "fish
  write.table(GO_BP_Table, file.path(outdir, "GO_BP_Table.csv"), sep=",", 
   row.names=F)
 ```
+
+## DISCUSIÓN Y CONCLUSIONES
+
+Determinar si existe expresión diferencial entre genotipos.
+
+Existe un efecto de interacción entre el genotipo y el tratamiento sobre la expresión génica en los cardiomiocitos 
+
+Determinar si existe expresión diferencial entre tratamientos.
+
+Evaluar las diferencias en la respuesta al tratamiento entre los dos genotipos.
+
+
+
+
+
+
+
+
+
+
+
