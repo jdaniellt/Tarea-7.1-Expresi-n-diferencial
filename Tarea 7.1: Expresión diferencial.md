@@ -303,5 +303,27 @@ Para responder la segunda pregunta, podemos usar los diagramas de Venn. Queremos
 
 ### Graficar los genes DE por efectos marginales o de interacción. 
 
+```R
+png(file.path(outdir, "vennDiagram_DiffExprs.png"), width=3.5, height=3, unit="in", res=150)
+ par(cex=.7)
+ vennDiagram(Counts.DE, names=c("Geno", "Trt", "Int"), 
+             main="\n\n\nDifferentially Expressed Genes")
+ dev.off()
+ ```
+ 
+![vennDiagram_DiffExprs](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/vennDiagram_DiffExprs.png)
 
+### Generación de Diagramas de Venn de los genes que responden al genotipo de manera dependiente del tratamiento y viceversa
+
+```R
+png(file.path(outdir, "vennDiagram_Int.png"), width=6.5, height=3, unit="in", res=150)
+
+ par(mfrow=c(1,2), cex=.7)
+ vennDiagram(Counts.Int_Geno, names=c("I", "C"), 
+             main="\n\n\nGenes Responding to Genotype\nin a Treatment Dependent Manner")
+ vennDiagram(Counts.Int_Trt, names=c("B", "BY"),
+             main="\n\n\nGenes Responding to Treatment\nin a Genotype Dependent Manner")
+
+ dev.off()
+```
 
