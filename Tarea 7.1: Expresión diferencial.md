@@ -121,6 +121,7 @@ legend(8, 2.5, legend=levels(design$Treatment), fill=1:2, ncol=2, xjust=.5)
 
 dev.off()
 ```
+![boxplot_raw_treatment](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/boxplot_raw_treatment.png)
 
 
 
