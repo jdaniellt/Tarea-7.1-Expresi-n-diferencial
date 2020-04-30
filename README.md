@@ -45,10 +45,12 @@ Se evaluaron ocho ratones machos adultos de dos cepas (C57BL/6J y C57BL/6J-chrY<
 
 ## Descargar 500 muestras de manera aleatoria del archivo GSE15354_raw.txt obtenido de http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE15354. También, leer los valores crudos (no normalizados):
 
+```R
 Data <- read.delim("C:/Raiz/BioinfinvRepro-master/Unidad7/DE_tutorial/raw_data.txt", header=TRUE)
 my_data <- Data[sample(nrow(Data), 5000), ]
 signal    <- grep("CDR", colnames(my_data)) # vector de columnas con datos 
 detection <- grep("Detection.Pval", colnames(my_data)) # vector de columnas con valores p
+```
 
 ## Importar las anotaciones de las sondas y extraer las 5000 previamente seleccionadas:
 
