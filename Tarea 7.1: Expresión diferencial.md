@@ -43,6 +43,19 @@ Se evaluaron ocho ratones machos adultos de dos cepas (C57BL/6J y C57BL/6J-chrY<
 
 **Nota**: No se muestra una serie de comandos exactamente secuencial, sólo se reportan los comandos y resultados que se consideraron más importantes.
 
+### Defina algunas constantes. En vez de usar un FDR 0.2, use uno de 0.19:
+
+```R 
+outdir     <- "output"
+fdr_th     <- 0.19
+```
+
+### Lea un archivo que define algunas funciones que son necesarias para el análisis:
+
+```R
+> source("Rfxs.R")
+```
+
 ### Descargar 500 muestras de manera aleatoria del archivo GSE15354_raw.txt obtenido de http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE15354. También, leer los valores crudos (no normalizados):
 
 ```R
@@ -131,5 +144,96 @@ par(cex=.2, mar=c(2.1,2.1,2.1,1.1))
 pairs(log2(Data.Raw[,signal]), main="Log2 Raw Intensity Values", pch=".",  gap=.5, cex.labels=.5)
 dev.off()
 ```
-![boxplot_raw_treatment]
+![Pairs_scatter_log2](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/Pairs_scatter_log2.png)
+
+### Filtrado de la sonda por QC: 
+**Las sondas de mala calidad tienden a tener una señal más baja que las sondas buenas. Por lo tanto se recomienda para eliminarlas**
+
+```R
+my_data <- Data.Raw[probe_qc %in% "Good probes",]
+annot    <- annot[probe_qc %in% "Good probes",]
+```
+### Crear un microarreglo de datos brutos
+
+```R 
+rawdata           <- as.matrix(my_data[,signal])
+rownames(rawdata) <- Data.Raw$PROBE_ID
+colnames(rawdata) <- design$Sample_Name
+```
+
+### Normalización de datos:
+
+```R
+library(preprocessCore)
+normdata           <- normalize.quantiles(rawdata) 
+colnames(normdata) <- colnames(rawdata)
+rownames(normdata) <- rownames(rawdata)
+```
+
+### Filtrado de sondas. Este paso tiene como objetivo eliminar las sondas que no detectaron trasncritos en ninguno de los grupos experimentales. Tenga en cuenta que este paso puede ser opcional pero recomendado. 
+
+**En vez de considerar un transcrito presente si la sonda lo detectó en el 50% de las muestras de cualquier grupo experimental, hágalo cuando se detectó en al menos el 25% de las muestras de todos grupos experimentales:** 
+
+```R 
+probe_present      <- my_data[,detection] < 0.04
+detected_per_group <- t(apply(probe_present, 1, tapply, design$Group, sum))
+present  <- apply(detected_per_group >= 1, 1, all)
+normdata <- normdata[present,]
+annot    <- annot[present, ]
+```
+## Prueba de expresión diferencial
+
+```R
+ madata <- read.madata(normdata, design, log.trans=T)
+```
+### Ajustar el modelo. 
+```R
+ fit.fix <- fitmaanova(madata, formula=~Group)
+```
+### Estime algunas estadísticos básicos para cada grupo experimental para ser incluidas en la tabla final de los resultados. 
+```R
+ Means           <- t(apply(madata$data, 1, tapply, design$Group, mean)) 
+ colnames(Means) <- paste("Mean", colnames(Means), sep=":")
+ SEs             <- t(apply(madata$data, 1, tapply, design$Group, function(x) sqrt(var(x)/length(x))))
+ colnames(SEs)   <- paste("SE", colnames(SEs), sep=":")
+```
+### Pruebe cada contraste utilizando 500 permutaciones de las muestras. En una situación real se recomiendan al menos 1.000 permutaciones. Las pruebas de F se realizarán utilizando una estimación de varianza residual por sonda (F1) y una estimación basada en contracción de varianza residual que utiliza información de múltiples sondas (Fs)
+
+```R 
+test.cmat <- matest(madata, fit.fix, term="Group", Contrast=cmat, n.perm=500, 
+                    test.type = "ttest", shuffle.method="sample", verbose=TRUE)
+                    Doing F-test on observed data ...
+Doing permutation. This may take a long time ... 
+Finish permutation #  100 
+Finish permutation #  200 
+```
+### Grafique los valores de p comparando diferentes formas de calcularlos ( consulte ?matest):
+
+```R
+png(file.path(outdir,"P-values Hist.png"), width=6, height=6, unit="in", res=150)
+par(mfrow=c(2,2), oma=c(2,0,2,0), cex=.8, xpd=NA)
+palette(rainbow(3))
+plot(density(test.cmat$F1$Ptab[,1]), col=1, main="F1:Ptab", lwd=2)
+lines(density(test.cmat$F1$Ptab[,2]), col=2, lwd=2)
+lines(density(test.cmat$F1$Ptab[,3]), col=3, lwd=2)
+
+plot(density(test.cmat$F1$Pvalperm[,1]), col=1, main="F1:Pvalperm", lwd=2)
+lines(density(test.cmat$F1$Pvalperm[,2]), col=2, lwd=2)
+lines(density(test.cmat$F1$Pvalperm[,3]), col=3, lwd=2)
+
+plot(density(test.cmat$Fs$Ptab[,1]), col=1, main="Fs:Ptab", lwd=2)
+lines(density(test.cmat$Fs$Ptab[,2]), col=2, lwd=2)
+lines(density(test.cmat$Fs$Ptab[,3]), col=3, lwd=2)
+
+plot(density(test.cmat$Fs$Pvalperm[,1]), col=1, main="Fs:Pvalperm", lwd=2)
+lines(density(test.cmat$Fs$Pvalperm[,2]), col=2, lwd=2)
+lines(density(test.cmat$Fs$Pvalperm[,3]), col=3, lwd=2)
+
+legend(-.5, -1.6, legend=c("Geno", "Trt", "Int"), col=1:3,lwd=2,xjust=.5,ncol=3,xpd=NA)
+dev.off()
+```
+### 
+
+
+
 
