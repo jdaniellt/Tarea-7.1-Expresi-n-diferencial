@@ -473,7 +473,7 @@ Existe un mayor número de genes DE entre genotipos (527) que entre tratamientos
 
 En cuanto a las implicaciones biológicas, la evaluación de la interacción permitió identificar 249 “genes de interacción”  que se enriquecen dentro la vía de señalización p53, que comprende los genes Ccnd1, Pten y Cdkn1a que son correguladores de los receptores de andrógenos, así como la vía de señalización del ritmo circadiano que comprende los genes Arntl / Bmal1, encargados de regular el crecimiento celular a través del control de Cdkn1a.
 
-Se encontró, que la testosterona post-puberal aumentó el tamaño de los cardiomiocitos de la cepa C56BL / 6J, pero no fue así con la cepa C57BL / 6J-chrYA; sin embargo, no afectó la expresión génica en los corazones de ambas. No obstante, varios genes cardíacos respondieron a la testosterona post-puberal de una manera estrictamente selectiva dependiendo de la cepa. Lo anterior, puede explicarse por la ausencia de efectos hipertróficos de post-pubertad de la testosterona en cada una de las cepas. 
+Se encontró, que la testosterona post-puberal aumentó el tamaño de los cardiomiocitos de la cepa C56BL / 6J, pero no fue así con la cepa C57BL / 6J-chrYA; sin embargo, no afectó la expresión génica en los corazones de ambas. No obstante, varios genes cardíacos respondieron a la testosterona post-puberal de una manera estrictamente selectiva dependiendo de la cepa. Lo anterior, puede explicarse por la ausencia de efectos hipertróficos de post-pubertad de la testosterona en cada una de las cepas. Finalmente, los hallazgos brindan evidencia de que los genes de los cromosomas sexuales juegan papel importante en las enfermedades cardiovasculares.
 
 
 
