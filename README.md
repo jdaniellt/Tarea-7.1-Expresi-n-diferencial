@@ -54,9 +54,11 @@ detection <- grep("Detection.Pval", colnames(my_data)) # vector de columnas con 
 
 ## Importar las anotaciones de las sondas y extraer las 5000 previamente seleccionadas:
 
+```
 annot     <- read.delim("C:/Raiz/BioinfinvRepro-master/Unidad7/DE_tutorial/MouseRef-8_annot_full.txt")
 data_names <- rownames(my_data)
 annot = annot[row.names(annot)%in%data_names,]
+```
 
 ## Visualizar la calidad de las sondas al ser alineadas con el genoma de referencia: 
 
