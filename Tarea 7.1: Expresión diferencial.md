@@ -96,7 +96,7 @@ Array Sample_Name Sentrix_ID Sentrix_Position Genotype Treatment Group
 ## Control de calidad
 ### Crea gráficos de cajas coloreados por la calidad de la sonda:
 
-
+```R
 png(file.path(outdir,"boxplot_raw_probe_qc.png"), width=6.5, height=4, unit="in", res=150)
 
 par(xpd=NA, mar= c(6.1, 5.1, 4.1, 2.1), cex=.7, las=3)
@@ -107,4 +107,6 @@ axis(2)
 legend("top", legend=levels(qcfact), fill=1:2, ncol=2, xjust=.5, bty="n", inset=-.1)
 
 dev.off()
+```
+![bloxplot_raw_probe_qc](bloxplot_raw_probe_qc.png)
 
