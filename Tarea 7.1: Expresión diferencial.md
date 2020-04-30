@@ -110,5 +110,18 @@ dev.off()
 ```
 ![bloxplot_raw_probe_qc](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/boxplot_raw_probe_qc.png)
 
+### Crea cuadros de caja de colores por tratamiento
+
+```R
+png(file.path(outdir,"boxplot_raw_treatment.png"), width=4, height=4, unit="in", res=150)
+
+par(xpd=NA, mar= c(6.1, 4.1, 4.1, 2.1), cex=.7)
+boxplot(as.data.frame(log2(my_data[,signal])), horiz=T, main="Raw log2 values Boxplot", las=1, col=design$Treatment, names=design$Sentrix_Position, cex.axis=.9)
+legend(8, 2.5, legend=levels(design$Treatment), fill=1:2, ncol=2, xjust=.5)
+
+dev.off()
+```
+
+
 
 
