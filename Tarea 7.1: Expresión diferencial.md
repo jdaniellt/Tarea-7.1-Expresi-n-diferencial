@@ -232,7 +232,60 @@ lines(density(test.cmat$Fs$Pvalperm[,3]), col=3, lwd=2)
 legend(-.5, -1.6, legend=c("Geno", "Trt", "Int"), col=1:3,lwd=2,xjust=.5,ncol=3,xpd=NA)
 dev.off()
 ```
-### 
+
+![P-values%20Hist](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/P-values%20Hist.png)
+
+###  Resuma en una tabla los resultados para todas los transcriptos presentes.  Exportaremos solo los resultados de las pruebas `Fs` y los valores `Pvalperm` de permutaciones.
+
+```R
+ results <- data.frame(annot, Means, SEs, F_val=test.cmat$Fs$Fobs,
+                       P_val=test.cmat$Fs$Pvalperm, FDR=test.cmat$Fs$adjPvalperm, FC=FC)
+```
+
+### Exportar todos los resultados.  Puede abrir DE_results.csv en Excel o Calc OpenOffice.
+
+```R
+ write.table(results, file=file.path(outdir,"DE_results.csv"), sep=",", row.names=F)
+```
+
+## Contar genes expresados diferencialmente
+
+En este experimento, una pregunta de interés fue cuántos genes responden de manera diferente al tratamiento de la castración en los dos genotipos. En otras palabras, ¿existe un efecto de interacción entre el genotipo y el tratamiento sobre la expresión génica en los cardiomiocitos? En segundo lugar, es interesante evaluar la naturaleza de la interacción. ¿Ambos genotipos responden al tratamiento pero en direcciones opuestas? ¿O el tratamiento tiene un efecto en uno de los genotipos y no en el otro? Para responder a la primera pregunta, se podría contar el número de sondas que muestran un efecto significativo para el contraste Int, es decir, el número de sondas que tienen un FDR por debajo de un umbral para la prueba Int.Pvalperm. Si aún no sabe cómo calcular esto en R, abra el archivo DE_results.csv un editor de hoja de cálculo como Calc OpenOffice y use filtros para calcular este número. Luego trate de hacer esto en R y compare los resultados.
+
+Para responder la segunda pregunta, podemos usar los diagramas de Venn. Queremos contar el número de genes que se seleccionan en cada genotipo, pero solo entre aquellos que muestran un efecto de interacción significativo.
+
+### Crear un identificador del gen basado en EntrezGene y utilizar el ID de la sonda cuando no esté asociada a un gen:
+
+```R
+ results$GeneID <- results$EntrezID
+ results$GeneID[is.na(results$GeneID)] <- results$ProbeID[is.na(results$GeneID)]
+ ```
+ 
+### Cuente las sondas seleccionadas por expresión diferencial por genotipo, tratamiento y/o interacción:
+
+```R
+ Probes.DE <- results[, c("FDR.Geno", "FDR.Trt", "FDR.Int")]  <= fdr_th
+ Genes.DE  <- apply(Probes.DE, 2, tapply, results$GeneID, any)
+```
+
+### Usando solo las sondas seleccionadas por efectos de interacción, cuente las sondas significativas para el efecto de genotipo en ratones intactos (I) y/o castrados (C).
+
+```R             
+ Probes.Int_Geno <- results[results$FDR.Int <= fdr_th, 
+                            c("FDR.Geno_I", "FDR.Geno_C")] <= fdr_th
+ Genes.Int_Geno  <- apply(Probes.Int_Geno, 2, tapply, 
+                          results$GeneID[results$FDR.Int <= fdr_th], any)
+   ```
+### Usando solamente sondas seleccionadas por efectos de interacción, cuente las sondas significativas para el efecto de tratamiento en ratones del genotipo B y/o del genotipo BY.
+
+```R
+ Probes.Int_Trt  <- results[results$FDR.Int <= fdr_th,
+                            c("FDR.Trt_B", "FDR.Trt_BY")]  <= fdr_th
+ Genes.Int_Trt   <- apply(Probes.Int_Trt, 2, tapply,
+                          results$GeneID[results$FDR.Int <= fdr_th], any)
+```
+                          
+### Contar genes para cada combinación de efectos marginales y de interacción.
 
 
 
