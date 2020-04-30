@@ -43,6 +43,16 @@ Se evaluaron ocho ratones machos adultos de dos cepas (C57BL/6J y C57BL/6J-chrY<
 
 **Nota**: No se muestra una serie de comandos exactamente secuencial, sólo se reportan los comandos y resultados que se consideraron más importantes.
 
+### Cargar las siguientes librerias:
+
+```R 
+library(preprocessCore)
+library(maanova)
+library(limma)
+library(topGO)
+library(org.Mm.eg.db)
+```
+
 ### Defina algunas constantes. En vez de usar un FDR 0.2, use uno de 0.19:
 
 ```R 
@@ -208,7 +218,6 @@ Finish permutation #  100
 Finish permutation #  200 
 ```
 ### Grafique los valores de p comparando diferentes formas de calcularlos ( consulte ?matest):
-
 ```R
 png(file.path(outdir,"P-values Hist.png"), width=6, height=6, unit="in", res=150)
 par(mfrow=c(2,2), oma=c(2,0,2,0), cex=.8, xpd=NA)
@@ -287,6 +296,12 @@ Para responder la segunda pregunta, podemos usar los diagramas de Venn. Queremos
                           
 ### Contar genes para cada combinación de efectos marginales y de interacción.
 
+
+
+### Contar los genes DE entre niveles de un factor condicional en el otro factor.
+
+
+### Graficar los genes DE por efectos marginales o de interacción. 
 
 
 
