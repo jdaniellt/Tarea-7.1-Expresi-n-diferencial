@@ -43,7 +43,7 @@ Se evaluaron ocho ratones machos adultos de dos cepas (C57BL/6J y C57BL/6J-chrY<
 
 **Nota**: No se muestra una serie de comandos exactamente secuencial, sólo se reportan los comandos y resultados que se consideraron más importantes.
 
-## Descargar 500 muestras de manera aleatoria del archivo GSE15354_raw.txt obtenido de http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE15354. También, leer los valores crudos (no normalizados):
+### Descargar 500 muestras de manera aleatoria del archivo GSE15354_raw.txt obtenido de http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE15354. También, leer los valores crudos (no normalizados):
 
 ```R
 Data <- read.delim("C:/Raiz/BioinfinvRepro-master/Unidad7/DE_tutorial/raw_data.txt", header=TRUE)
@@ -52,7 +52,7 @@ signal    <- grep("CDR", colnames(my_data)) # vector de columnas con datos
 detection <- grep("Detection.Pval", colnames(my_data)) # vector de columnas con valores p
 ```
 
-## Importar las anotaciones de las sondas y extraer las 5000 previamente seleccionadas:
+### Importar las anotaciones de las sondas y extraer las 5000 previamente seleccionadas:
 
 ```R
 annot     <- read.delim("C:/Raiz/BioinfinvRepro-master/Unidad7/DE_tutorial/MouseRef-8_annot_full.txt")
@@ -60,7 +60,7 @@ data_names <- rownames(my_data)
 annot = annot[row.names(annot)%in%data_names,]
 ```
 
-## Visualizar la calidad de las sondas al ser alineadas con el genoma de referencia: 
+### Visualizar la calidad de las sondas al ser alineadas con el genoma de referencia: 
 
 ```R
 table(annot$ProbeQuality)
@@ -69,7 +69,7 @@ Bad        Good      Good***    Good****    No match     Perfect     Perfect*** 
 273         101       4           14            7          4429         51             121
 ```
 
-## Tabla con el diseño de hibridaciones:
+### Tabla con el diseño de hibridaciones:
 
 ```R
 design <- read.csv("C:/Raiz/BioinfinvRepro-master/Unidad7/DE_tutorial/YChrom_design.csv")
@@ -93,7 +93,20 @@ Array Sample_Name Sentrix_ID Sentrix_Position Genotype Treatment Group
 15    15  CDR032-DIL 4340571033                G       BY         C  BY.C
 16    16      CDR024 4340571033                H        B         C   B.C   
 ```
-## 
+## Control de calidad
+### Crea gráficos de cajas coloreados por la calidad de la sonda:
+
+
+png(file.path(outdir,"boxplot_raw_probe_qc.png"), width=6.5, height=4, unit="in", res=150)
+
+par(xpd=NA, mar= c(6.1, 5.1, 4.1, 2.1), cex=.7, las=3)
+boxplot(unlist(log2(my_data[,signal]))~qcfact+afact, horiz=T, main="Raw log2 values Boxplot",
+        col=rep(1:2, length(signal)), axes=F, varwidth=TRUE)
+axis(1, at=seq(1, length(signal)*2, by=2)+.5, labels=alabel)
+axis(2)
+legend("top", legend=levels(qcfact), fill=1:2, ncol=2, xjust=.5, bty="n", inset=-.1)
+
+dev.off()
 
 
 
