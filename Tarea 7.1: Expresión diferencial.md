@@ -118,7 +118,7 @@ Array Sample_Name Sentrix_ID Sentrix_Position Genotype Treatment Group
 ```
 ## Control de calidad
 ### Crea gráficos de cajas coloreados por la calidad de la sonda:
-
+### Figura 1:
 ```R
 png(file.path(outdir,"boxplot_raw_probe_qc.png"), width=6.5, height=4, unit="in", res=150)
 
@@ -131,10 +131,11 @@ legend("top", legend=levels(qcfact), fill=1:2, ncol=2, xjust=.5, bty="n", inset=
 
 dev.off()
 ```
+
 ![bloxplot_raw_probe_qc](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/boxplot_raw_probe_qc.png)
 
 ### Crea cuadros de caja de colores por tratamiento
-
+### Figura 2
 ```R
 png(file.path(outdir,"boxplot_raw_treatment.png"), width=4, height=4, unit="in", res=150)
 
@@ -147,7 +148,7 @@ dev.off()
 ![boxplot_raw_treatment](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/boxplot_raw_treatment.png)
 
 ### Cree diagramas de dispersión de datos sin procesar en escala log2.
-
+### Figura 3
 ```R
 png(file.path(outdir,"Pairs_scatter_log2.png"), width=8, height=8, unit="in", res=150)
 par(cex=.2, mar=c(2.1,2.1,2.1,1.1))
@@ -218,6 +219,7 @@ Finish permutation #  100
 Finish permutation #  200 
 ```
 ### Grafique los valores de p comparando diferentes formas de calcularlos ( consulte ?matest):
+### Figura 4
 ```R
 png(file.path(outdir,"P-values Hist.png"), width=6, height=6, unit="in", res=150)
 par(mfrow=c(2,2), oma=c(2,0,2,0), cex=.8, xpd=NA)
@@ -339,7 +341,7 @@ attr(,"class")
 ```
 
 ### Graficar los genes DE por efectos marginales o de interacción. 
-
+### Figura 5
 ```R
 png(file.path(outdir, "vennDiagram_DiffExprs.png"), width=3.5, height=3, unit="in", res=150)
  par(cex=.7)
@@ -347,11 +349,11 @@ png(file.path(outdir, "vennDiagram_DiffExprs.png"), width=3.5, height=3, unit="i
              main="\n\n\nDifferentially Expressed Genes")
  dev.off()
  ```
- 
+
 ![vennDiagram_DiffExprs](https://github.com/jdaniellt/Tarea-7.1-Expresi-n-diferencial/blob/master/vennDiagram_DiffExprs.png)
 
 ### Generación de Diagramas de Venn de los genes que responden al genotipo de manera dependiente del tratamiento y viceversa
-
+### Figura 6
 ```R
 png(file.path(outdir, "vennDiagram_Int.png"), width=6.5, height=3, unit="in", res=150)
 
