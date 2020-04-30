@@ -54,7 +54,7 @@ detection <- grep("Detection.Pval", colnames(my_data)) # vector de columnas con 
 
 ## Importar las anotaciones de las sondas y extraer las 5000 previamente seleccionadas:
 
-```
+```R
 annot     <- read.delim("C:/Raiz/BioinfinvRepro-master/Unidad7/DE_tutorial/MouseRef-8_annot_full.txt")
 data_names <- rownames(my_data)
 annot = annot[row.names(annot)%in%data_names,]
@@ -62,13 +62,16 @@ annot = annot[row.names(annot)%in%data_names,]
 
 ## Visualizar la calidad de las sondas al ser alineadas con el genoma de referencia: 
 
+```R
 table(annot$ProbeQuality)
 
 Bad        Good      Good***    Good****    No match     Perfect     Perfect***     Perfect****
 273         101       4           14            7          4429         51             121
+```
 
 ## Tabla con el diseño de hibridaciones:
 
+```R
 design <- read.csv("C:/Raiz/BioinfinvRepro-master/Unidad7/DE_tutorial/YChrom_design.csv")
 print(design)
 
@@ -89,7 +92,7 @@ Array Sample_Name Sentrix_ID Sentrix_Position Genotype Treatment Group
 14    14  CDR028-DIL 4340571033                F       BY         I  BY.I
 15    15  CDR032-DIL 4340571033                G       BY         C  BY.C
 16    16      CDR024 4340571033                H        B         C   B.C   
-
+```
 ## 
 
 
